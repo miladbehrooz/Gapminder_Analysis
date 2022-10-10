@@ -1,6 +1,6 @@
 from bokeh.io import output_notebook
 from bokeh.plotting import figure, show, output_file
-from bokeh.models import ColumnDataSource, CategoricalColorMapper
+from bokeh.models import ColumnDataSource, CategoricalColorMapper, Button
 from bokeh.palettes import Spectral6
 from bokeh.models import Slider
 from bokeh.layouts import column, row
@@ -19,7 +19,27 @@ def update_plot(attr, old, new):
     
     # Add title to plot
     p.title.text = f'Correlation between life expentency and fertility rate for year {year}'
-    
+
+def animate_update():
+    year = slider.value + 1
+    if year > 2015:
+        year = 1950
+    slider.value = year
+
+#create global variable for callback
+callback_animate = None
+
+
+def animate():
+    global callback_animate
+    if button.label == '► Play':
+        button.label = '❚❚ Pause'
+        callback_animate = curdoc().add_periodic_callback(animate_update, 200)
+    else:
+        button.label = '► Play'
+        curdoc().remove_periodic_callback(callback_animate)
+
+
 
 year = 1950
 df = pd.read_csv('../data/data.csv')
@@ -51,7 +71,12 @@ p.y_range.end = 9
 
 slider = Slider(start=1950, end=2015, step=1, value=1950, title='Year')
 slider.on_change('value', update_plot)
-layout = row(column(slider), p)
+
+#create the button and set on-click callback
+button = Button(label='► Play', width=60)
+button.on_click(animate)
+
+layout = row(column(slider,button), p)
 
 
 # Replace output_file and show(layout) with this
