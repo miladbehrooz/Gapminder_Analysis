@@ -22,7 +22,7 @@ def update_plot(attr, old, new):
     
 
 year = 1950
-df = pd.read_csv('data.csv')
+df = pd.read_csv('../data/data.csv')
 subset = df.loc[df['year'] == year]
 subset['population'] = subset['population']//15000000
 
