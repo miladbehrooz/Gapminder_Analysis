@@ -1,4 +1,4 @@
-# Gif of Fertility Rate vs Life Expectancy over time based on Gapminder dataset
+# Interactive visualization of the Fertility Rate vs Life Expectancy over time based on Gapminder dataset
 ![gif](./figures/animation.gif)
 - Collected data from [Gapminder](https://www.gapminder.org/data/) project
 - Used Pandas and Seaborn to wrangle, explore, and analyse data
